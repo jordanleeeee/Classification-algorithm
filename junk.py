@@ -1,7 +1,4 @@
-import numpy as np
+import reader
 
-
-str =["s", "a", "d"]
-print(str)
-a = str.copy().remove("a")
-print(str)
+records = reader.readTestingDataSet('guess.txt')
+print(records)
