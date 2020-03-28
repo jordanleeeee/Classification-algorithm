@@ -8,7 +8,7 @@ class DecisionTree:
         self.attribute = None
         self.subNode = dict()
         self.df = df
-        self.determineAttribute = determineAttribute    # the class the the tree will predict
+        self.determineAttribute = determineAttribute    # the class that the tree will predict
         self.attributes = attributes
         self.classification = None
 
@@ -56,6 +56,8 @@ class DecisionTree:
         splitAttribute, maxGain = None, 0
         for attribute in self.attributes:
             gain = self.getGain(targetInfo, attribute)
+            # don't give me warning, so annoying
+            # noinspection PyTypeChecker
             if gain > maxGain:
                 splitAttribute = attribute
                 maxGain = gain
