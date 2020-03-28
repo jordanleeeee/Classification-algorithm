@@ -8,7 +8,7 @@ class DecisionTree:
         self.attribute = None
         self.subNode = dict()
         self.df = df
-        self.determineAttribute = determineAttribute
+        self.determineAttribute = determineAttribute    # the class the the tree will predict
         self.attributes = attributes
         self.classification = None
 
@@ -16,7 +16,7 @@ class DecisionTree:
 
     def predict(self, testCase):
         if self.attribute is not None:
-            return self.subNode[testCase[self.attribute]].predict(testCase)
+            return self.subNode[testCase[self.attribute]].predict(testCase)     # recursively go though decision node
         else:
             return self.classification
 
@@ -36,7 +36,6 @@ class DecisionTree:
             return True
         # All samples for a given node belong to the same class
         if len(self.df[self.determineAttribute].unique()) == 1:
-            print("no need to split")
             return True
         # There are no remaining attributes for further partitioning
         if len(self.attributes) == 0:
@@ -44,7 +43,7 @@ class DecisionTree:
         return False
 
     def getGain(self, targetInfo, attribute):
-        return
+        pass
 
     def mineTree(self):
         if self.shouldStop():
@@ -65,7 +64,7 @@ class DecisionTree:
         self.splitTree(splitAttribute)
 
     def getNewNode(self, attribute, value, temp):
-        return
+        pass
 
     def splitTree(self, attribute):
         self.attribute = attribute

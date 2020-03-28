@@ -15,8 +15,7 @@ def infoCalculation(num):
 
 
 def baseInfo(df, determineAttribute):
-    keys = df[determineAttribute].unique()  # last column unique value
-    numOfData = len(df)
+    keys = df[determineAttribute].unique()  # column unique value
     nums = list()
     for value in keys:
         nums.append(len(df[df[determineAttribute] == value]))
@@ -25,10 +24,10 @@ def baseInfo(df, determineAttribute):
 
 def info(df, attribute, determineAttribute):
     numOfData = len(df)
-    info = 0
+    result = 0
     keys = df[attribute].unique()  # unique value
     for value in keys:
         occurrence = len(df[df[attribute] == value])
         probOfOccur = occurrence/numOfData
-        info += probOfOccur * baseInfo(df[df[attribute] == value], determineAttribute)
-    return info
+        result += probOfOccur * baseInfo(df[df[attribute] == value], determineAttribute)
+    return result

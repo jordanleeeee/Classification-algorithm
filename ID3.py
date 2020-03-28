@@ -6,15 +6,11 @@ import pandas as pd
 
 
 class ID3(decisionTree.DecisionTree):
-    def __init__(self, df, attributes, determineAttribute):
-        decisionTree.DecisionTree.__init__(self, df, attributes, determineAttribute)
-
     def getGain(self, targetInfo, attribute):
         return targetInfo - cal.info(self.df, attribute, self.determineAttribute)
-        # return gain = targetInfo - cal.info(self.df, attribute, self.determineAttribute))/cal.baseInfo(self.df, attribute)
 
-    def getNewNode(self, attribute, value, temp):
-        return ID3(self.df[self.df[attribute] == value], temp, self.determineAttribute)
+    def getNewNode(self, attribute, value, attributes):
+        return ID3(self.df[self.df[attribute] == value], attributes, self.determineAttribute)
 
 
 attributes, records = reader.readTrainingDataSet('smallTrain.txt')
@@ -27,7 +23,7 @@ decisionTree.printTree()
 testCases = reader.readTestingDataSet('guess.txt')
 for testCase in testCases:
     predictedClass = decisionTree.predict(testCase)
-    print("\n" + attributes[-1] + " of")
+    print("\n" + attributes[-1] + " of ", end='')
     print(testCase)
-    print("is predicted to belong to ")
+    print("is classify to ", end='')
     print(predictedClass)
