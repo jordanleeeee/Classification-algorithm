@@ -1,3 +1,7 @@
+import numpy as np
+import pandas as pd
+
+
 def decomposeLine(line):
     line = line[:-1]            # remove \n in the char sequence
     return line.split(",")
@@ -31,4 +35,4 @@ def readTrainingDataSet(path):
         record = decomposeLine(line)
         records.append(record)
         line = database.readline()
-    return attributes, records
+    return pd.DataFrame(np.array(records), columns=attributes)

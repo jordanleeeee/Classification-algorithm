@@ -1,11 +1,10 @@
-import decisionTree
+import decisionTree as dt
 import infoCalculator as cal
 import reader
-import numpy as np
-import pandas as pd
+import time
 
 
-class ID3(decisionTree.DecisionTree):
+class ID3(dt.DecisionTree):
     def getGain(self, targetInfo, attribute):
         return targetInfo - cal.info(self.df, attribute, self.determineAttribute)
 
@@ -13,17 +12,22 @@ class ID3(decisionTree.DecisionTree):
         return ID3(self.df[self.df[attribute] == value], attributes, self.determineAttribute)
 
 
-attributes, records = reader.readTrainingDataSet('smallTrain.txt')
-df = pd.DataFrame(np.array(records), columns=attributes)
+df = reader.readTrainingDataSet('train.txt')
+attributes = list(df.keys())
 print(df)
 
+start = time.time()
 decisionTree = ID3(df, attributes[:-1], attributes[-1])
+print("/////////////////////////")
 decisionTree.printTree()
+print("/////////////////////////")
 
-testCases = reader.readTestingDataSet('guess.txt')
+testCases = reader.readTestingDataSet('test.txt')
 for testCase in testCases:
     predictedClass = decisionTree.predict(testCase)
     print("\n" + attributes[-1] + " of ", end='')
-    print(testCase)
+    print(list(testCase.values()))
     print("is classify to ", end='')
     print(predictedClass)
+
+print("time take " + str(time.time() - start))

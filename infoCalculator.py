@@ -1,14 +1,12 @@
 import numpy as np
 
 
-def infoCalculation(num):
-    total = 0
-    for i in num:
-        total += i
+def entropy(num):
+    total = sum(num)
     result = 0
     for i in num:
         if i == 0:
-            return 0
+            continue
         temp = i/total
         result -= temp * np.log2(temp)
     return result
@@ -19,7 +17,7 @@ def baseInfo(df, determineAttribute):
     nums = list()
     for value in keys:
         nums.append(len(df[df[determineAttribute] == value]))
-    return infoCalculation(nums)
+    return entropy(nums)
 
 
 def info(df, attribute, determineAttribute):

@@ -3,13 +3,14 @@ import infoCalculator as cal
 
 class DecisionTree:
     def __init__(self, df, attributes, determineAttribute):
-        print("\n\nhello")
-        print(attributes)
+        # print("\n\nhello")
+        # print(attributes)
+        self.df = df
+        self.attributes = attributes
+        self.determineAttribute = determineAttribute  # the class that the tree will predict
+
         self.attribute = None
         self.subNode = dict()
-        self.df = df
-        self.determineAttribute = determineAttribute    # the class that the tree will predict
-        self.attributes = attributes
         self.classification = None
 
         self.mineTree()
@@ -20,10 +21,21 @@ class DecisionTree:
         else:
             return self.classification
 
+    # def getDepth(self):
+    #     if len(self.subNode) == 0:
+    #         return 0
+    #     else:
+    #         maxDepth = -1
+    #         for subTree in self.subNode.values():
+    #             temp = subTree.getDepth()
+    #             if temp > maxDepth:
+    #                 maxDepth = temp
+    #         return 1+maxDepth
+
     def printTree(self):
         print("\ntree node")
         print(self.attribute)
-        print(self.subNode)
+        print(self.subNode.keys())
         for node in self.subNode.values():
             node.printTree()
         if self.classification is not None:
@@ -61,8 +73,8 @@ class DecisionTree:
             if gain > maxGain:
                 splitAttribute = attribute
                 maxGain = gain
-            print("attribute: " + attribute + " has gain = " + str(gain))
-        print("split at " + splitAttribute)
+        #     print("attribute: " + attribute + " has gain = " + str(gain))
+        # print("split at " + splitAttribute)
         self.splitTree(splitAttribute)
 
     def getNewNode(self, attribute, value, temp):
@@ -70,8 +82,8 @@ class DecisionTree:
 
     def splitTree(self, attribute):
         self.attribute = attribute
+        newAttributes = self.attributes.copy()
+        newAttributes.remove(attribute)
         keys = self.df[attribute].unique()  # unique value
         for value in keys:
-            temp = self.attributes.copy()
-            temp.remove(attribute)
-            self.subNode[value] = self.getNewNode(attribute, value, temp)
+            self.subNode[value] = self.getNewNode(attribute, value, newAttributes)

@@ -1,4 +1,6 @@
-import reader
+import numpy as np
 
-records = reader.readTestingDataSet('guess.txt')
-print(records)
+
+dictionary = dict()
+dictionary[4] = 5
+print(len(dictionary))
