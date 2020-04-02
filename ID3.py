@@ -14,13 +14,15 @@ class ID3(dt.DecisionTree):
 
 df = reader.readTrainingDataSet('train.txt')
 attributes = list(df.keys())
-print(df)
+# print(df.shape[0])
+# print(len(df.drop_duplicates()))
 
 start = time.time()
 decisionTree = ID3(df, attributes[:-1], attributes[-1])
-print("/////////////////////////")
-decisionTree.printTree()
-print("/////////////////////////")
+# print("/////////////////////////")
+# decisionTree.printTree()
+# print("/////////////////////////")
+# print(decisionTree.getNumOfLeaf())
 
 testCases = reader.readTestingDataSet('test.txt')
 for testCase in testCases:

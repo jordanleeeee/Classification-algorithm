@@ -7,8 +7,8 @@ def entropy(num):
     for i in num:
         if i == 0:
             continue
-        temp = i/total
-        result -= temp * np.log2(temp)
+        probi = i/total
+        result -= probi * np.log2(probi)
     return result
 
 

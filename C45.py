@@ -14,14 +14,15 @@ class CFourPointFive(dt.DecisionTree):
 
 df = reader.readTrainingDataSet('train.txt')
 attributes = list(df.keys())
-print(df)
+# print(df)
 
 start = time.time()
 
 decisionTree = CFourPointFive(df, attributes[:-1], attributes[-1])
-print("/////////////////////////")
-decisionTree.printTree()
-print("/////////////////////////")
+# print("/////////////////////////")
+# decisionTree.printTree()
+# print("/////////////////////////")
+# print(decisionTree.getNumOfLeaf())
 
 testCases = reader.readTestingDataSet('test.txt')
 for testCase in testCases:

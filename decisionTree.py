@@ -21,16 +21,24 @@ class DecisionTree:
         else:
             return self.classification
 
-    # def getDepth(self):
-    #     if len(self.subNode) == 0:
-    #         return 0
-    #     else:
-    #         maxDepth = -1
-    #         for subTree in self.subNode.values():
-    #             temp = subTree.getDepth()
-    #             if temp > maxDepth:
-    #                 maxDepth = temp
-    #         return 1+maxDepth
+    def getDepth(self):
+        if len(self.subNode) == 0:
+            return 0
+        else:
+            maxDepth = -1
+            for subTree in self.subNode.values():
+                temp = subTree.getDepth()
+                if temp > maxDepth:
+                    maxDepth = temp
+            return 1+maxDepth
+
+    def getNumOfLeaf(self):
+        if len(self.subNode) == 0:
+            return 1
+        sum = 0
+        for subTree in self.subNode.values():
+            sum += subTree.getNumOfLeaf()
+        return sum
 
     def printTree(self):
         print("\ntree node")
