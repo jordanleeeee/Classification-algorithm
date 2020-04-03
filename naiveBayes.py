@@ -9,7 +9,7 @@ class Classifier:
         self.determineAttribute = attributes[-1]        # last attribute is attribute that we want to predict
         self.possibleClasses = df[self.determineAttribute].unique()     # possible class of the prediction
         # A 3 dimensional dictionary where
-        # dict[attribute][value][predictedClass] will store the value of P(attribute = value | predictedClass)
+        # dict[attribute][value][predictedClass] will store the value of P(attribute = value | class = predictedClass)
         self.posteriori = dict()
         # a dictionary that store how likely each class will occur
         self.probiOfEachClass = dict()
@@ -22,11 +22,14 @@ class Classifier:
 
         for attribute in self.attributes:
             self.posteriori[attribute] = dict()
-            for value in df[attribute].unique():
+            uniqueValue = df[attribute].unique()
+            for value in uniqueValue:
                 probi = dict()
                 for possibleClass in self.possibleClasses:
                     partialDf = self.df[self.df[self.determineAttribute] == possibleClass]
-                    probi[possibleClass] = len(partialDf[partialDf[attribute] == value]) / len(partialDf)
+                    # use Laplacian correction  (Adding 1 to each case)
+                    probi[possibleClass] = \
+                        (len(partialDf[partialDf[attribute] == value]) + 1) / (len(partialDf) + len(uniqueValue))
                 self.posteriori[attribute][value] = probi
 
     # return P(c1, c2...cn | determineAttribute = possibleClass) * P(determineAttribute = possibleClass)
@@ -40,6 +43,7 @@ class Classifier:
         predictedClass, maxConfidence = list(), 0
         for possibleClass in self.possibleClasses:
             confidence = self.__calculateConfidence(testCase, possibleClass)
+            # choose the class that has highest confidence
             if confidence > maxConfidence:
                 maxConfidence = confidence
                 predictedClass = list([possibleClass])
@@ -53,7 +57,7 @@ class Classifier:
 
 df = reader.readTrainingDataSet('train.txt')
 attributes = list(df.keys())
-print(df)
+# print(df)
 
 start = time.time()
 

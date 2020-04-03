@@ -21,40 +21,12 @@ class DecisionTree:
         else:
             return self.classification
 
-    def getDepth(self):
-        if len(self.subNode) == 0:
-            return 0
-        else:
-            maxDepth = -1
-            for subTree in self.subNode.values():
-                temp = subTree.getDepth()
-                if temp > maxDepth:
-                    maxDepth = temp
-            return 1+maxDepth
-
-    def getNumOfLeaf(self):
-        if len(self.subNode) == 0:
-            return 1
-        sum = 0
-        for subTree in self.subNode.values():
-            sum += subTree.getNumOfLeaf()
-        return sum
-
-    def printTree(self):
-        print("\ntree node")
-        print(self.attribute)
-        print(self.subNode.keys())
-        for node in self.subNode.values():
-            node.printTree()
-        if self.classification is not None:
-            print("classification is")
-            print(self.classification)
-
     def shouldStop(self):
         # There are no samples left
         if len(self.df) == 0:
             return True
         # All samples for a given node belong to the same class
+        # i.e. accuracy of node is 100 %
         if len(self.df[self.determineAttribute].unique()) == 1:
             return True
         # There are no remaining attributes for further partitioning
@@ -68,22 +40,23 @@ class DecisionTree:
     def mineTree(self):
         if self.shouldStop():
             possibleClass = self.df[self.determineAttribute].unique()
+            # store the predicted class, it may be one or more than one or none.
             self.classification = list(possibleClass)
             return
 
         # when the tree can be split and need to split
         targetInfo = cal.baseInfo(self.df, self.determineAttribute)
-        splitAttribute, maxGain = None, 0
+        bestSplitAttribute, maxGain = None, 0
         for attribute in self.attributes:
             gain = self.getGain(targetInfo, attribute)
             # don't give me warning, so annoying
             # noinspection PyTypeChecker
             if gain > maxGain:
-                splitAttribute = attribute
+                bestSplitAttribute = attribute
                 maxGain = gain
         #     print("attribute: " + attribute + " has gain = " + str(gain))
-        # print("split at " + splitAttribute)
-        self.splitTree(splitAttribute)
+        # print("split at " + bestSplitAttribute)
+        self.splitTree(bestSplitAttribute)
 
     def getNewNode(self, attribute, value, temp):
         pass
@@ -95,3 +68,32 @@ class DecisionTree:
         keys = self.df[attribute].unique()  # unique value
         for value in keys:
             self.subNode[value] = self.getNewNode(attribute, value, newAttributes)
+
+    # def getDepth(self):
+    #     if len(self.subNode) == 0:
+    #         return 0
+    #     else:
+    #         maxDepth = -1
+    #         for subTree in self.subNode.values():
+    #             temp = subTree.getDepth()
+    #             if temp > maxDepth:
+    #                 maxDepth = temp
+    #         return 1+maxDepth
+    #
+    # def getNumOfLeaf(self):
+    #     if len(self.subNode) == 0:
+    #         return 1
+    #     sum = 0
+    #     for subTree in self.subNode.values():
+    #         sum += subTree.getNumOfLeaf()
+    #     return sum
+    #
+    # def printTree(self):
+    #     print("\ntree node")
+    #     print(self.attribute)
+    #     print(self.subNode.keys())
+    #     for node in self.subNode.values():
+    #         node.printTree()
+    #     if self.classification is not None:
+    #         print("classification is")
+    #         print(self.classification)

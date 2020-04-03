@@ -38,15 +38,15 @@ def readTrainingDataSet(path):
     return pd.DataFrame(np.array(records), columns=attributes)
 
 
-def readTrainingDataSet2(path):
-    database = open(path, 'r')
-    line = database.readline()
-    line = database.readline()
-    trainX = list()
-    trainY = list()
-    while line != "":
-        record = decomposeLine(line)
-        trainX.append(list(record[:-1]))
-        trainY.append(record[-1])
-        line = database.readline()
-    return trainX, trainY
+# def readTrainingDataSet2(path):
+#     database = open(path, 'r')
+#     line = database.readline()
+#     line = database.readline()
+#     trainX = list()
+#     trainY = list()
+#     while line != "":
+#         record = decomposeLine(line)
+#         trainX.append(list(record[:-1]))
+#         trainY.append(record[-1])
+#         line = database.readline()
+#     return trainX, trainY
