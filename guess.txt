@@ -1,3 +1,0 @@
-Race,Income,Child
-white,high,no
-black,high,yes

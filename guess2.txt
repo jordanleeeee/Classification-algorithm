@@ -1,3 +1,0 @@
-age,income,student,credit_rating
-a,medium,yes,fair
-a,high,no,fair
